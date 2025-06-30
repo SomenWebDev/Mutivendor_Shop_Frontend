@@ -44,7 +44,7 @@ import AdminUsers from "../pages/admin/AdminUsers";
 import AdminOrders from "../pages/admin/AdminOrders";
 
 // NotFound Page
-import NotFound from "../pages/NotFound"; // 👈 Add this import
+import NotFound from "../pages/NotFound";
 
 const AppRoutes = () => {
   return (
@@ -66,7 +66,8 @@ const AppRoutes = () => {
         <Route path="/login/vendor" element={<VendorLogin />} />
         <Route path="/login/admin" element={<AdminLogin />} />
         <Route path="/verify/vendor" element={<VendorVerify />} />
-
+        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/cancel" element={<PaymentCancel />} />
         {/* Protected Customer Routes */}
         <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
           <Route path="/customer/checkout" element={<Checkout />} />
@@ -75,8 +76,6 @@ const AppRoutes = () => {
             path="/customer/review/:productId"
             element={<ProductReviewPage />}
           />
-          <Route path="/payment/success" element={<PaymentSuccess />} />
-          <Route path="/payment/cancel" element={<PaymentCancel />} />
         </Route>
       </Route>
 
