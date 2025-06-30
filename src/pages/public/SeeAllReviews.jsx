@@ -14,7 +14,7 @@ const SeeAllReviews = () => {
       const res = await axios.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/reviews/public`,
         {
-          params: { page, limit: 8 },
+          params: { page, limit: 12 },
         }
       );
       setReviews(res.data.reviews || []);
