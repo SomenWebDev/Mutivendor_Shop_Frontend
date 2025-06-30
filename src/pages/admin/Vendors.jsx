@@ -9,7 +9,7 @@ const Vendors = () => {
   const fetchVendors = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}api/admin/vendors`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/vendors`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
