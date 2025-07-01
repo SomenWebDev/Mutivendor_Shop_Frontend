@@ -78,7 +78,7 @@ const Banner = () => {
   return (
     <div
       className="min-h-[90vh] flex flex-col lg:flex-row items-center justify-center
-        bg-base-200 dark:bg-base-300 transition-colors duration-300 p-6 sm:p-10 lg:p-16 overflow-hidden"
+      bg-base-100 dark:bg-base-300 text-base-content transition-colors duration-500 p-6 sm:p-10 lg:p-16 overflow-hidden"
     >
       {/* Left: Animated Text */}
       <Motion.div
@@ -87,12 +87,12 @@ const Banner = () => {
         animate="visible"
         variants={leftTextVariants}
       >
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-black dark:text-white">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
           <span>Your One-Stop </span>
           <span className="text-blue-600 dark:text-blue-400">Marketplace</span>
         </h1>
 
-        <p className="text-base sm:text-lg text-black dark:text-white">
+        <p className="text-base sm:text-lg">
           Discover, shop, and support amazing vendors in one place. Quality
           products, direct from trusted sellers.
         </p>
