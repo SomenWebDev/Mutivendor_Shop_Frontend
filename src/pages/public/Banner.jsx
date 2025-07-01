@@ -78,25 +78,23 @@ const Banner = () => {
   return (
     <div
       className="min-h-[90vh] flex flex-col lg:flex-row items-center justify-center
-        bg-base-200 dark:bg-base-300 transition-colors duration-300 p-6 sm:p-10 lg:p-16 overflow-hidden"
+      bg-base-100 dark:bg-black text-base-content dark:text-white p-6 sm:p-10 lg:p-16 overflow-hidden transition-colors duration-500"
     >
-      {/* Left: Animated Text */}
+      {/* Left: Animated Text (always on top for small/medium) */}
       <Motion.div
         className="w-full lg:w-1/2 space-y-6 text-center lg:text-left mb-10 lg:mb-0"
         initial="hidden"
         animate="visible"
         variants={leftTextVariants}
       >
-        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-black dark:text-white">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-base-content dark:text-white">
           <span>Your One-Stop </span>
           <span className="text-blue-600 dark:text-blue-400">Marketplace</span>
         </h1>
-
-        <p className="text-base sm:text-lg text-black dark:text-white">
+        <p className="text-base sm:text-lg text-base-content dark:text-white">
           Discover, shop, and support amazing vendors in one place. Quality
           products, direct from trusted sellers.
         </p>
-
         <HashLink
           smooth
           to="#products"
