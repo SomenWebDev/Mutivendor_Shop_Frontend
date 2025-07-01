@@ -72,9 +72,9 @@ const Reviews = () => {
           <div className="mt-10 text-center">
             <Link
               to="/reviews"
-              className="inline-block px-8 py-3 border border-blue-700 text-blue-700 rounded-lg font-semibold
-                hover:bg-blue-700 hover:text-white transition-colors duration-300
-                dark:border-blue-400 dark:text-blue-300 dark:hover:bg-blue-500 dark:hover:text-white"
+              className="inline-block px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold shadow-md
+                hover:bg-blue-700 transition-colors duration-300
+                dark:bg-blue-500 dark:text-white dark:hover:bg-blue-600"
             >
               See All Reviews
             </Link>
