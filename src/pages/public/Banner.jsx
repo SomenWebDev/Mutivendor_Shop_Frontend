@@ -11,7 +11,7 @@ const tileVariants = {
     rotateX: 0,
     scale: 1,
     transition: {
-      delay: i * 0.15 + 0.5, // stagger with initial delay for text animation
+      delay: i * 0.15 + 0.5,
       duration: 0.6,
       ease: "easeOut",
     },
@@ -77,12 +77,12 @@ const Banner = () => {
 
   return (
     <div
-      className="min-h-[90vh] flex flex-col md:flex-row items-center justify-between
+      className="min-h-[90vh] flex flex-col items-center justify-start
       bg-base-100 dark:bg-black text-base-content p-6 sm:p-10 md:p-16 overflow-hidden transition-colors duration-500"
     >
-      {/* Left: Animated Text */}
+      {/* Top: Animated Text */}
       <Motion.div
-        className="md:w-1/2 space-y-6 text-center md:text-left"
+        className="w-full max-w-xl space-y-6 text-center mb-10"
         initial="hidden"
         animate="visible"
         variants={leftTextVariants}
@@ -104,8 +104,8 @@ const Banner = () => {
         </HashLink>
       </Motion.div>
 
-      {/* Right: Category Tiles */}
-      <div className="md:w-1/2 mt-10 md:mt-0 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 z-10 w-full max-w-md sm:max-w-lg md:max-w-full perspective-1000">
+      {/* Bottom: Category Tiles */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 sm:gap-6 z-10 w-full max-w-md sm:max-w-lg md:max-w-2xl perspective-1000">
         {mockCards.map((card, i) => (
           <Motion.div
             key={i}
