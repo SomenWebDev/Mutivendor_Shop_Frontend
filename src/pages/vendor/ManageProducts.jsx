@@ -19,7 +19,9 @@ const ManageProducts = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/categories`);
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/api/categories`
+        );
         setCategories(res.data);
       } catch (err) {
         toast.error("Failed to load categories", err);
@@ -30,10 +32,13 @@ const ManageProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/vendor/products`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { search, page },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/vendor/products`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+          params: { search, page },
+        }
+      );
 
       const { products = [], totalPages = 1 } = res.data;
       setProducts(products);
@@ -237,7 +242,7 @@ const ManageProducts = () => {
                       <td>
                         <span className="badge badge-info">Editing</span>
                       </td>
-                      <td className="space-x-1">
+                      <td className="flex flex-col space-y-1 md:flex-row md:space-y-0 md:space-x-2">
                         <button
                           className="btn btn-sm btn-success"
                           onClick={() => handleSave(product._id)}
@@ -273,19 +278,21 @@ const ManageProducts = () => {
                           <span className="badge badge-warning">Pending</span>
                         )}
                       </td>
-                      <td className="space-x-1">
-                        <button
-                          className="btn btn-sm btn-primary"
-                          onClick={() => handleEdit(product)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="btn btn-sm btn-error"
-                          onClick={() => handleDelete(product._id)}
-                        >
-                          Delete
-                        </button>
+                      <td>
+                        <div className="flex flex-col space-y-1 md:flex-row md:space-y-0 md:space-x-2">
+                          <button
+                            className="btn btn-sm btn-primary"
+                            onClick={() => handleEdit(product)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="btn btn-sm btn-error"
+                            onClick={() => handleDelete(product._id)}
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   )
@@ -319,4 +326,5 @@ const ManageProducts = () => {
     </div>
   );
 };
+
 export default ManageProducts;
