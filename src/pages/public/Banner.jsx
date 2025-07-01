@@ -77,24 +77,26 @@ const Banner = () => {
 
   return (
     <div
-      className="min-h-[90vh] flex flex-col items-center justify-start
-      bg-base-100 dark:bg-black text-base-content p-6 sm:p-10 md:p-16 overflow-hidden transition-colors duration-500"
+      className="min-h-[90vh] flex flex-col lg:flex-row items-center justify-center
+      bg-base-100 dark:bg-black transition-colors duration-500 p-6 sm:p-10 lg:p-16 overflow-hidden"
     >
-      {/* Top: Animated Text */}
+      {/* Left: Animated Text */}
       <Motion.div
-        className="w-full max-w-xl space-y-6 text-center mb-10"
+        className="w-full lg:w-1/2 space-y-6 text-center lg:text-left mb-10 lg:mb-0"
         initial="hidden"
         animate="visible"
         variants={leftTextVariants}
       >
-        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-black dark:text-white">
           <span>Your One-Stop </span>
           <span className="text-blue-600 dark:text-blue-400">Marketplace</span>
         </h1>
-        <p className="text-base sm:text-lg">
+
+        <p className="text-base sm:text-lg text-black dark:text-white">
           Discover, shop, and support amazing vendors in one place. Quality
           products, direct from trusted sellers.
         </p>
+
         <HashLink
           smooth
           to="#products"
@@ -104,8 +106,8 @@ const Banner = () => {
         </HashLink>
       </Motion.div>
 
-      {/* Bottom: Category Tiles */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4 sm:gap-6 z-10 w-full max-w-md sm:max-w-lg md:max-w-2xl perspective-1000">
+      {/* Right: Category Tiles */}
+      <div className="w-full lg:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 z-10 max-w-md sm:max-w-lg lg:max-w-full">
         {mockCards.map((card, i) => (
           <Motion.div
             key={i}
