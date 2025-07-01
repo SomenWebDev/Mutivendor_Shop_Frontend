@@ -18,7 +18,9 @@ const Navbar = () => {
   const token = getToken();
   const user = getUserFromToken();
   const { cartItems } = useCart();
+
   const [isDark, setIsDark] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isAuthPage = [
     "/login",
@@ -63,50 +65,81 @@ const Navbar = () => {
         </HashLink>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Button */}
       <div className="flex-none lg:hidden">
-        <details className="dropdown dropdown-end">
-          <summary className="btn btn-ghost">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </summary>
-          <ul className="menu dropdown-content mt-3 z-[1] p-3 shadow bg-base-100 rounded-box w-60 max-h-[75vh] overflow-y-auto">
+        <button
+          className="btn btn-ghost"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <svg
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* Mobile Dropdown Menu */}
+      {isMobileMenuOpen && (
+        <div className="absolute top-full right-4 mt-2 z-50 bg-base-100 shadow rounded-box w-60 p-3 max-h-[75vh] overflow-y-auto">
+          <ul className="menu space-y-1">
             {!isAuthPage && (
               <>
                 <li>
-                  <HashLink to="/#products">Products</HashLink>
+                  <HashLink
+                    to="/#products"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Products
+                  </HashLink>
                 </li>
                 <li>
-                  <HashLink to="/#reviews">Reviews</HashLink>
+                  <HashLink
+                    to="/#reviews"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Reviews
+                  </HashLink>
                 </li>
                 <li>
-                  <HashLink to="/#contact">Contact</HashLink>
+                  <HashLink
+                    to="/#contact"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Contact
+                  </HashLink>
                 </li>
               </>
             )}
 
-            {/* Customer-specific mobile items */}
             {(!user || user.role === "customer") && !isAuthPage && (
               <>
                 <li>
-                  <button onClick={() => navigate("/cart")}>
+                  <button
+                    onClick={() => {
+                      navigate("/cart");
+                      setIsMobileMenuOpen(false);
+                    }}
+                  >
                     <FaShoppingCart /> Cart ({cartItems.length})
                   </button>
                 </li>
                 {user && (
                   <li>
-                    <button onClick={() => navigate("/customer/orders")}>
+                    <button
+                      onClick={() => {
+                        navigate("/customer/orders");
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
                       Order History
                     </button>
                   </li>
@@ -114,18 +147,32 @@ const Navbar = () => {
               </>
             )}
 
-            {/* Not Logged In */}
             {!token ? (
               !isAuthPage && (
                 <>
                   <li>
-                    <HashLink to="/login">Login</HashLink>
+                    <HashLink
+                      to="/login"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Login
+                    </HashLink>
                   </li>
                   <li>
-                    <HashLink to="/register/customer">Customer Signup</HashLink>
+                    <HashLink
+                      to="/register/customer"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Customer Signup
+                    </HashLink>
                   </li>
                   <li>
-                    <HashLink to="/register/vendor">Vendor Signup</HashLink>
+                    <HashLink
+                      to="/register/vendor"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Vendor Signup
+                    </HashLink>
                   </li>
                 </>
               )
@@ -133,12 +180,22 @@ const Navbar = () => {
               <>
                 {user?.role === "vendor" && (
                   <li>
-                    <HashLink to="/vendor/dashboard">Vendor Dashboard</HashLink>
+                    <HashLink
+                      to="/vendor/dashboard"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Vendor Dashboard
+                    </HashLink>
                   </li>
                 )}
                 {user?.role === "admin" && (
                   <li>
-                    <HashLink to="/admin/dashboard">Admin Panel</HashLink>
+                    <HashLink
+                      to="/admin/dashboard"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Admin Panel
+                    </HashLink>
                   </li>
                 )}
                 <li className="text-sm font-medium px-4 py-2">
@@ -147,7 +204,10 @@ const Navbar = () => {
                 </li>
                 <li>
                   <button
-                    onClick={handleLogout}
+                    onClick={() => {
+                      handleLogout();
+                      setIsMobileMenuOpen(false);
+                    }}
                     className="text-red-600 flex gap-2 items-center"
                   >
                     <FaSignOutAlt /> Logout
@@ -156,9 +216,14 @@ const Navbar = () => {
               </>
             )}
 
-            {/* Theme Toggle */}
             <li>
-              <button onClick={toggleTheme} className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  toggleTheme();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex items-center gap-2"
+              >
                 {isDark ? (
                   <>
                     <FaSun /> Light Mode
@@ -171,8 +236,8 @@ const Navbar = () => {
               </button>
             </li>
           </ul>
-        </details>
-      </div>
+        </div>
+      )}
 
       {/* Desktop Menu */}
       <div className="hidden lg:flex items-center space-x-4">
@@ -190,7 +255,6 @@ const Navbar = () => {
           </>
         )}
 
-        {/* Cart & Order (Customer only) */}
         {(!user || user.role === "customer") && !isAuthPage && (
           <>
             <button
@@ -215,7 +279,6 @@ const Navbar = () => {
           </>
         )}
 
-        {/* Auth Buttons / Dashboard */}
         {!token ? (
           !isAuthPage && (
             <>
@@ -261,7 +324,6 @@ const Navbar = () => {
           </>
         )}
 
-        {/* Theme Toggle */}
         <button onClick={toggleTheme} className="btn btn-ghost btn-circle">
           {isDark ? <FaSun /> : <FaMoon />}
         </button>

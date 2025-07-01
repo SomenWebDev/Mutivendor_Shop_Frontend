@@ -101,12 +101,13 @@ const ProductList = () => {
           {/* Product Cards */}
           <div
             ref={scrollRef}
-            className="flex overflow-x-auto gap-4 pb-4 scroll-smooth no-scrollbar"
+            className="flex overflow-x-auto gap-4 pb-4 scroll-smooth no-scrollbar
+              snap-x snap-mandatory"
           >
             {products.map((product) => (
               <div
                 key={product._id}
-                className="min-w-[220px] max-w-[220px] bg-base-100 dark:bg-base-200 border border-base-300 dark:border-base-100 shadow rounded-lg p-4 flex flex-col justify-between hover:shadow-xl transition text-base-content"
+                className="snap-start shrink-0 basis-full sm:basis-[80%] md:basis-[calc((100%-32px)/3)] bg-base-100 dark:bg-base-200 border border-base-300 dark:border-base-100 shadow rounded-lg p-4 flex flex-col justify-between hover:shadow-xl transition text-base-content"
               >
                 <img
                   src={
