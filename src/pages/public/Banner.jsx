@@ -78,7 +78,7 @@ const Banner = () => {
   return (
     <div
       className="min-h-[90vh] flex flex-col lg:flex-row items-center justify-center
-      bg-base-100 dark:bg-black transition-colors duration-500 p-6 sm:p-10 lg:p-16 overflow-hidden"
+        bg-base-200 dark:bg-base-300 transition-colors duration-300 p-6 sm:p-10 lg:p-16 overflow-hidden"
     >
       {/* Left: Animated Text */}
       <Motion.div
