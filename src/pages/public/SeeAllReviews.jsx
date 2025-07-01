@@ -13,9 +13,7 @@ const SeeAllReviews = () => {
       setLoading(true);
       const res = await axios.get(
         `${import.meta.env.VITE_API_BASE_URL}/api/reviews/public`,
-        {
-          params: { page, limit: 12 },
-        }
+        { params: { page, limit: 12 } }
       );
       setReviews(res.data.reviews || []);
       setTotalPages(res.data.totalPages || 1);
@@ -31,19 +29,15 @@ const SeeAllReviews = () => {
   }, [page]);
 
   return (
-    <div className="py-12 px-4 sm:px-6 max-w-7xl mx-auto bg-base-200 dark:bg-base-300 rounded-lg shadow">
-      <h2 className="text-3xl font-bold text-center mb-8 text-base-content dark:text-white">
+    <div className="py-12 px-4 sm:px-6 max-w-7xl mx-auto bg-base-200 dark:bg-base-300 text-base-content transition-colors duration-300 rounded-lg shadow">
+      <h2 className="text-3xl font-bold text-center mb-8">
         All Customer Reviews
       </h2>
 
       {loading ? (
-        <p className="text-center text-gray-500 dark:text-gray-400">
-          Loading...
-        </p>
+        <p className="text-center text-base-content">Loading...</p>
       ) : reviews.length === 0 ? (
-        <p className="text-center text-gray-500 dark:text-gray-400">
-          No reviews yet.
-        </p>
+        <p className="text-center text-base-content">No reviews yet.</p>
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -64,10 +58,8 @@ const SeeAllReviews = () => {
                     />
                   ))}
                 </div>
-                <p className="text-sm text-base-content mb-2">
-                  {review.comment}
-                </p>
-                <p className="text-xs italic font-medium text-base-content dark:text-white">
+                <p className="text-sm mb-2">{review.comment}</p>
+                <p className="text-xs italic font-medium">
                   — {review.user?.name || "Anonymous"}
                 </p>
                 <p className="text-xs mt-2 font-bold text-blue-600 dark:text-blue-400">
@@ -86,7 +78,7 @@ const SeeAllReviews = () => {
             >
               Prev
             </button>
-            <span className="px-2 py-1 rounded text-sm font-semibold text-base-content dark:text-base-content">
+            <span className="px-2 py-1 rounded text-sm font-semibold">
               Page {page} of {totalPages}
             </span>
             <button
