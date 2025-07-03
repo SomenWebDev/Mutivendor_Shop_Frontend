@@ -58,7 +58,8 @@ const Navbar = () => {
       <div className="flex-1">
         <HashLink
           smooth
-          to="/"
+          to="/#"
+          scroll={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="text-2xl font-bold text-primary hover:text-secondary"
         >
           MultiVendorShop
