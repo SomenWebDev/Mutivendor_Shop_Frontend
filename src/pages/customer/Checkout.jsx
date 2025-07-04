@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useCart } from "../../context/useCart";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -7,27 +7,19 @@ import axios from "axios";
 
 const Checkout = () => {
   const { cartItems, clearCart } = useCart();
-  const navigate = useNavigate();
-  const user = getUserFromToken();
-
   const [shippingInfo, setShippingInfo] = useState({
     name: "",
     phone: "",
     address: "",
   });
 
-  useEffect(() => {
-    if (!user) {
-      navigate("/login");
-      return;
-    }
+  const navigate = useNavigate();
+  const user = getUserFromToken();
 
-    // Auto-fill user's name on mount
-    setShippingInfo((prev) => ({
-      ...prev,
-      name: user.name || "",
-    }));
-  }, [user, navigate]);
+  if (!user) {
+    navigate("/login");
+    return null;
+  }
 
   const handleChange = (e) => {
     setShippingInfo({ ...shippingInfo, [e.target.name]: e.target.value });
@@ -54,8 +46,7 @@ const Checkout = () => {
         {
           customerId: user.id,
           cartItems,
-          phone: shippingInfo.phone,
-          address: shippingInfo.address,
+          shippingInfo,
         },
         {
           headers: {
@@ -103,7 +94,7 @@ const Checkout = () => {
               className="input input-bordered w-full dark:bg-base-100 dark:text-base-content"
               value={shippingInfo.name}
               onChange={handleChange}
-              readOnly // optional
+              required
             />
           </div>
           <div>
@@ -113,7 +104,7 @@ const Checkout = () => {
             <input
               type="text"
               name="phone"
-              placeholder="+880 1XXXXXXXXX"
+              placeholder="+1 234 567 890"
               className="input input-bordered w-full dark:bg-base-100 dark:text-base-content"
               value={shippingInfo.phone}
               onChange={handleChange}

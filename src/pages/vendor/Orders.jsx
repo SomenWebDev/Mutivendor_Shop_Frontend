@@ -13,9 +13,7 @@ const Orders = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `${
-          import.meta.env.VITE_API_BASE_URL
-        }/api/vendor/orders?page=${page}&limit=5&search=${search}&sortBy=${sortBy}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/vendor/orders?page=${page}&limit=5&search=${search}&sortBy=${sortBy}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -23,8 +21,7 @@ const Orders = () => {
       setOrders(res.data.orders || []);
       setTotalPages(res.data.totalPages || 1);
     } catch (err) {
-      toast.error("Failed to fetch orders");
-      console.error(err);
+      toast.error("Failed to fetch orders", err);
     }
   };
 
@@ -47,9 +44,13 @@ const Orders = () => {
       toast.success("Status updated");
       fetchOrders();
     } catch (err) {
-      toast.error("Failed to update status");
-      console.error(err);
+      toast.error("Failed to update status", err);
     }
+  };
+
+  const handleSearchInput = (e) => {
+    setSearch(e.target.value);
+    setPage(1);
   };
 
   return (
@@ -62,19 +63,13 @@ const Orders = () => {
           type="text"
           placeholder="Search by customer name or email"
           value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setPage(1);
-          }}
+          onChange={handleSearchInput}
           className="input input-bordered w-full md:max-w-md"
         />
 
         <select
           value={sortBy}
-          onChange={(e) => {
-            setSortBy(e.target.value);
-            setPage(1);
-          }}
+          onChange={(e) => setSortBy(e.target.value)}
           className="select select-bordered w-full md:w-60"
         >
           <option value="newest">Newest First</option>
@@ -100,12 +95,6 @@ const Orders = () => {
                 </p>
                 <p>
                   <strong>Email:</strong> {order.customer.email}
-                </p>
-                <p>
-                  <strong>Phone:</strong> {order.phone || "N/A"}
-                </p>
-                <p>
-                  <strong>Address:</strong> {order.address || "N/A"}
                 </p>
                 <p>
                   <strong>Date:</strong>{" "}
