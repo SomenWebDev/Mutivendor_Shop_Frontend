@@ -33,11 +33,21 @@ const ProductList = () => {
   }, []);
 
   const scrollLeft = () => {
-    scrollRef.current.scrollBy({ left: -300, behavior: "smooth" });
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: -scrollRef.current.offsetWidth * 0.8,
+        behavior: "smooth",
+      });
+    }
   };
 
   const scrollRight = () => {
-    scrollRef.current.scrollBy({ left: 300, behavior: "smooth" });
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: scrollRef.current.offsetWidth * 0.8,
+        behavior: "smooth",
+      });
+    }
   };
 
   const handleAddToCart = (product) => {
@@ -70,7 +80,7 @@ const ProductList = () => {
         name: product.name,
         price: product.price,
         quantity: 1,
-        stock: product.stock, // ✅ needed for reducer if used
+        stock: product.stock,
         image: product.images?.[0]?.url || product.imageUrl || "",
         vendorId: product.vendorId || product.vendor?._id,
       });
@@ -90,7 +100,7 @@ const ProductList = () => {
         </div>
       ) : (
         <>
-          {/* Scroll Arrows */}
+          {/* Scroll Arrows - ✅ always visible */}
           <button
             onClick={scrollLeft}
             className="absolute left-2 top-[50%] transform -translate-y-1/2 z-10 bg-base-100 dark:bg-base-200 p-2 rounded-full shadow hover:scale-110 transition"
@@ -118,7 +128,7 @@ const ProductList = () => {
               return (
                 <div
                   key={product._id}
-                  className="snap-start shrink-0 basis-full sm:basis-[80%] md:basis-[calc((100%-32px)/3)] bg-base-100 dark:bg-base-200 border border-base-300 dark:border-base-100 shadow rounded-lg p-4 flex flex-col justify-between hover:shadow-xl transition text-base-content"
+                  className="snap-start shrink-0 basis-full sm:basis-[80%] md:basis-[calc(100%/2.5)] lg:basis-[calc(100%/3)] bg-base-100 dark:bg-base-200 border border-base-300 dark:border-base-100 shadow rounded-lg p-4 flex flex-col justify-between hover:shadow-xl transition text-base-content"
                 >
                   <img
                     src={
