@@ -23,7 +23,8 @@ const Orders = () => {
       setOrders(res.data.orders || []);
       setTotalPages(res.data.totalPages || 1);
     } catch (err) {
-      toast.error("Failed to fetch orders", err);
+      toast.error("Failed to fetch orders");
+      console.error(err);
     }
   };
 
@@ -46,7 +47,8 @@ const Orders = () => {
       toast.success("Status updated");
       fetchOrders();
     } catch (err) {
-      toast.error("Failed to update status", err);
+      toast.error("Failed to update status");
+      console.error(err);
     }
   };
 
@@ -100,12 +102,11 @@ const Orders = () => {
                   <strong>Email:</strong> {order.customer.email}
                 </p>
                 <p>
-                  <strong>Phone:</strong> {order.customer.phone || "N/A"}
+                  <strong>Phone:</strong> {order.phone || "N/A"}
                 </p>
                 <p>
-                  <strong>Address:</strong> {order.customer.address || "N/A"}
+                  <strong>Address:</strong> {order.address || "N/A"}
                 </p>
-
                 <p>
                   <strong>Date:</strong>{" "}
                   {new Date(order.createdAt).toLocaleString()}

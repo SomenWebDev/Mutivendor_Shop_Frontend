@@ -54,7 +54,8 @@ const Checkout = () => {
         {
           customerId: user.id,
           cartItems,
-          shippingInfo,
+          phone: shippingInfo.phone,
+          address: shippingInfo.address,
         },
         {
           headers: {
@@ -102,7 +103,7 @@ const Checkout = () => {
               className="input input-bordered w-full dark:bg-base-100 dark:text-base-content"
               value={shippingInfo.name}
               onChange={handleChange}
-              readOnly // Prevent user from editing (optional)
+              readOnly // optional
             />
           </div>
           <div>
@@ -112,7 +113,7 @@ const Checkout = () => {
             <input
               type="text"
               name="phone"
-              placeholder="+1 234 567 890"
+              placeholder="+880 1XXXXXXXXX"
               className="input input-bordered w-full dark:bg-base-100 dark:text-base-content"
               value={shippingInfo.phone}
               onChange={handleChange}
