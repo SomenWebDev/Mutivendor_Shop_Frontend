@@ -13,7 +13,9 @@ const Orders = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/vendor/orders?page=${page}&limit=5&search=${search}&sortBy=${sortBy}`,
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/vendor/orders?page=${page}&limit=5&search=${search}&sortBy=${sortBy}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -48,11 +50,6 @@ const Orders = () => {
     }
   };
 
-  const handleSearchInput = (e) => {
-    setSearch(e.target.value);
-    setPage(1);
-  };
-
   return (
     <div className="p-4 md:p-6 max-w-6xl mx-auto">
       <h2 className="text-2xl font-bold mb-6 text-base-content">My Orders</h2>
@@ -63,13 +60,19 @@ const Orders = () => {
           type="text"
           placeholder="Search by customer name or email"
           value={search}
-          onChange={handleSearchInput}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
           className="input input-bordered w-full md:max-w-md"
         />
 
         <select
           value={sortBy}
-          onChange={(e) => setSortBy(e.target.value)}
+          onChange={(e) => {
+            setSortBy(e.target.value);
+            setPage(1);
+          }}
           className="select select-bordered w-full md:w-60"
         >
           <option value="newest">Newest First</option>
@@ -95,6 +98,13 @@ const Orders = () => {
                 </p>
                 <p>
                   <strong>Email:</strong> {order.customer.email}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {order.shippingInfo?.phone || "N/A"}
+                </p>
+                <p>
+                  <strong>Address:</strong>{" "}
+                  {order.shippingInfo?.address || "N/A"}
                 </p>
                 <p>
                   <strong>Date:</strong>{" "}

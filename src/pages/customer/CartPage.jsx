@@ -33,62 +33,71 @@ const CartPage = () => {
       ) : (
         <>
           <div className="space-y-6">
-            {items.map((item) => (
-              <div
-                key={item.productId}
-                className="flex flex-col sm:flex-row gap-4 items-center border-b border-base-300 pb-4"
-              >
-                <img
-                  src={
-                    item.image?.startsWith("http")
-                      ? item.image
-                      : `${import.meta.env.VITE_API_BASE_URL}/uploads/${
-                          item.image
-                        }`
-                  }
-                  alt={item.name}
-                  className="w-20 h-20 object-cover rounded border"
-                />
+            {items.map((item) => {
+              const atMax = item.quantity >= item.stock;
 
-                <div className="flex-1 w-full">
-                  <h3 className="font-semibold text-base-content dark:text-base-content">
-                    {item.name}
-                  </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    ${item.price} × {item.quantity}
-                  </p>
-                </div>
+              return (
+                <div
+                  key={item.productId}
+                  className="flex flex-col sm:flex-row gap-4 items-center border-b border-base-300 pb-4"
+                >
+                  <img
+                    src={
+                      item.image?.startsWith("http")
+                        ? item.image
+                        : `${import.meta.env.VITE_API_BASE_URL}/uploads/${
+                            item.image
+                          }`
+                    }
+                    alt={item.name}
+                    className="w-20 h-20 object-cover rounded border"
+                  />
 
-                <div className="flex items-center gap-2">
-                  <button
-                    className="btn btn-sm"
-                    onClick={() =>
-                      updateQuantity(item.productId, item.quantity - 1)
-                    }
-                    disabled={item.quantity === 1}
-                  >
-                    -
-                  </button>
-                  <span className="text-base-content dark:text-base-content">
-                    {item.quantity}
-                  </span>
-                  <button
-                    className="btn btn-sm"
-                    onClick={() =>
-                      updateQuantity(item.productId, item.quantity + 1)
-                    }
-                  >
-                    +
-                  </button>
-                  <button
-                    className="btn btn-error btn-sm"
-                    onClick={() => removeItem(item.productId)}
-                  >
-                    Remove
-                  </button>
+                  <div className="flex-1 w-full">
+                    <h3 className="font-semibold text-base-content dark:text-base-content">
+                      {item.name}
+                    </h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                      ${item.price} × {item.quantity}
+                    </p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500">
+                      Stock: {item.stock}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      className="btn btn-sm"
+                      onClick={() =>
+                        updateQuantity(item.productId, item.quantity - 1)
+                      }
+                      disabled={item.quantity === 1}
+                    >
+                      -
+                    </button>
+                    <span className="text-base-content dark:text-base-content">
+                      {item.quantity}
+                    </span>
+                    <button
+                      className="btn btn-sm"
+                      onClick={() =>
+                        !atMax &&
+                        updateQuantity(item.productId, item.quantity + 1)
+                      }
+                      disabled={atMax}
+                    >
+                      +
+                    </button>
+                    <button
+                      className="btn btn-error btn-sm"
+                      onClick={() => removeItem(item.productId)}
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="text-right mt-6 text-lg font-bold text-base-content dark:text-base-content">

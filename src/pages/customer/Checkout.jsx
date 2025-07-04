@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useCart } from "../../context/useCart";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -7,19 +7,27 @@ import axios from "axios";
 
 const Checkout = () => {
   const { cartItems, clearCart } = useCart();
+  const navigate = useNavigate();
+  const user = getUserFromToken();
+
   const [shippingInfo, setShippingInfo] = useState({
     name: "",
     phone: "",
     address: "",
   });
 
-  const navigate = useNavigate();
-  const user = getUserFromToken();
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
 
-  if (!user) {
-    navigate("/login");
-    return null;
-  }
+    // Auto-fill user's name on mount
+    setShippingInfo((prev) => ({
+      ...prev,
+      name: user.name || "",
+    }));
+  }, [user, navigate]);
 
   const handleChange = (e) => {
     setShippingInfo({ ...shippingInfo, [e.target.name]: e.target.value });
@@ -94,7 +102,7 @@ const Checkout = () => {
               className="input input-bordered w-full dark:bg-base-100 dark:text-base-content"
               value={shippingInfo.name}
               onChange={handleChange}
-              required
+              readOnly // Prevent user from editing (optional)
             />
           </div>
           <div>

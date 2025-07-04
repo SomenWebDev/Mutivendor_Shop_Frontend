@@ -57,6 +57,11 @@ const ProductList = () => {
     );
 
     if (existingItem) {
+      if (existingItem.quantity >= product.stock) {
+        toast.error(`Only ${product.stock} item(s) available in stock`);
+        return;
+      }
+
       updateItemQuantity(product._id, existingItem.quantity + 1);
       toast.success(`Increased quantity of "${product.name}" in cart`);
     } else {
@@ -65,6 +70,7 @@ const ProductList = () => {
         name: product.name,
         price: product.price,
         quantity: 1,
+        stock: product.stock, // ✅ needed for reducer if used
         image: product.images?.[0]?.url || product.imageUrl || "",
         vendorId: product.vendorId || product.vendor?._id,
       });
@@ -101,63 +107,73 @@ const ProductList = () => {
           {/* Product Cards */}
           <div
             ref={scrollRef}
-            className="flex overflow-x-auto gap-4 pb-4 scroll-smooth no-scrollbar
-              snap-x snap-mandatory"
+            className="flex overflow-x-auto gap-4 pb-4 scroll-smooth no-scrollbar snap-x snap-mandatory"
           >
-            {products.map((product) => (
-              <div
-                key={product._id}
-                className="snap-start shrink-0 basis-full sm:basis-[80%] md:basis-[calc((100%-32px)/3)] bg-base-100 dark:bg-base-200 border border-base-300 dark:border-base-100 shadow rounded-lg p-4 flex flex-col justify-between hover:shadow-xl transition text-base-content"
-              >
-                <img
-                  src={
-                    product.images?.[0]?.url ||
-                    product.imageUrl ||
-                    "/placeholder.jpg"
-                  }
-                  alt={product.name}
-                  className="w-full h-40 object-cover rounded"
-                />
+            {products.map((product) => {
+              const cartItem = cartItems.find(
+                (item) => item.productId === product._id
+              );
+              const atMaxQty = cartItem?.quantity >= product.stock;
 
-                <div className="mt-2 flex-grow">
-                  <h3 className="text-md font-semibold truncate">
-                    {product.name}
-                  </h3>
-                  <div className="flex items-center justify-between mt-1 text-sm">
-                    <span className="text-base-content/60 capitalize">
-                      {product.category?.name || "Uncategorized"}
-                    </span>
-                    <span
-                      className={`font-semibold ${
-                        product.stock > 0
-                          ? "text-green-600"
-                          : "text-red-500 dark:text-red-400"
-                      }`}
-                    >
-                      {product.stock > 0 ? "In Stock" : "Out of Stock"}
-                    </span>
-                  </div>
-                </div>
-
-                <p className="text-blue-600 dark:text-blue-400 font-bold mt-2">
-                  ${product.price}
-                </p>
-
-                <button
-                  onClick={() => handleAddToCart(product)}
-                  disabled={product.stock === 0}
-                  className={`mt-2 px-3 py-2 flex items-center justify-center gap-2 rounded text-sm font-medium transition
-                    ${
-                      product.stock > 0
-                        ? "bg-blue-600 text-white hover:bg-blue-700"
-                        : "bg-base-300 text-base-content/50 cursor-not-allowed"
-                    }`}
+              return (
+                <div
+                  key={product._id}
+                  className="snap-start shrink-0 basis-full sm:basis-[80%] md:basis-[calc((100%-32px)/3)] bg-base-100 dark:bg-base-200 border border-base-300 dark:border-base-100 shadow rounded-lg p-4 flex flex-col justify-between hover:shadow-xl transition text-base-content"
                 >
-                  <FaShoppingCart />
-                  {product.stock > 0 ? "Add to Cart" : "Out of Stock"}
-                </button>
-              </div>
-            ))}
+                  <img
+                    src={
+                      product.images?.[0]?.url ||
+                      product.imageUrl ||
+                      "/placeholder.jpg"
+                    }
+                    alt={product.name}
+                    className="w-full h-40 object-cover rounded"
+                  />
+
+                  <div className="mt-2 flex-grow">
+                    <h3 className="text-md font-semibold truncate">
+                      {product.name}
+                    </h3>
+                    <div className="flex items-center justify-between mt-1 text-sm">
+                      <span className="text-base-content/60 capitalize">
+                        {product.category?.name || "Uncategorized"}
+                      </span>
+                      <span
+                        className={`font-semibold ${
+                          product.stock > 0
+                            ? "text-green-600"
+                            : "text-red-500 dark:text-red-400"
+                        }`}
+                      >
+                        {product.stock > 0 ? "In Stock" : "Out of Stock"}
+                      </span>
+                    </div>
+                  </div>
+
+                  <p className="text-blue-600 dark:text-blue-400 font-bold mt-2">
+                    ${product.price}
+                  </p>
+
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    disabled={product.stock === 0 || atMaxQty}
+                    className={`mt-2 px-3 py-2 flex items-center justify-center gap-2 rounded text-sm font-medium transition
+                      ${
+                        product.stock === 0 || atMaxQty
+                          ? "bg-base-300 text-base-content/50 cursor-not-allowed"
+                          : "bg-blue-600 text-white hover:bg-blue-700"
+                      }`}
+                  >
+                    <FaShoppingCart />
+                    {product.stock === 0
+                      ? "Out of Stock"
+                      : atMaxQty
+                      ? "Max Reached"
+                      : "Add to Cart"}
+                  </button>
+                </div>
+              );
+            })}
           </div>
 
           <div className="mt-8 text-center">
