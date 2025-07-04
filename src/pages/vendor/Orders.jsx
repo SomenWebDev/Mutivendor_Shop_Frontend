@@ -100,12 +100,12 @@ const Orders = () => {
                   <strong>Email:</strong> {order.customer.email}
                 </p>
                 <p>
-                  <strong>Phone:</strong> {order.shippingInfo?.phone || "N/A"}
+                  <strong>Phone:</strong> {order.customer.phone || "N/A"}
                 </p>
                 <p>
-                  <strong>Address:</strong>{" "}
-                  {order.shippingInfo?.address || "N/A"}
+                  <strong>Address:</strong> {order.customer.address || "N/A"}
                 </p>
+
                 <p>
                   <strong>Date:</strong>{" "}
                   {new Date(order.createdAt).toLocaleString()}
