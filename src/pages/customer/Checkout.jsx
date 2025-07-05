@@ -47,6 +47,11 @@ const Checkout = () => {
     try {
       const token = localStorage.getItem("token");
 
+      // Log shipping info and request payload before API call
+      console.log("Shipping Info:", shippingInfo);
+      console.log("Cart Items:", cartItems);
+      console.log("Customer ID:", user.id);
+
       const res = await axios.post(
         `${
           import.meta.env.VITE_API_BASE_URL
