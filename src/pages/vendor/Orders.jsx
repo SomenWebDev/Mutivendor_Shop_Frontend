@@ -22,9 +22,16 @@ const Orders = () => {
       );
       setOrders(res.data.orders || []);
       setTotalPages(res.data.totalPages || 1);
-      console.log("Orders from API:", res.data.orders);
+
+      console.log("✅ Orders from API:", res.data.orders);
+      res.data.orders.forEach((order, index) => {
+        console.log(`🔍 Order ${index + 1}:`);
+        console.log("📞 Phone:", order.phone);
+        console.log("🏠 Address:", order.address);
+      });
     } catch (err) {
-      toast.error("Failed to fetch orders", err);
+      console.error("Fetch orders error:", err);
+      toast.error("Failed to fetch orders");
     }
   };
 
@@ -47,7 +54,8 @@ const Orders = () => {
       toast.success("Status updated");
       fetchOrders();
     } catch (err) {
-      toast.error("Failed to update status", err);
+      console.error("Update status error:", err);
+      toast.error("Failed to update status");
     }
   };
 
@@ -86,67 +94,70 @@ const Orders = () => {
         <p className="text-base-content">No orders found.</p>
       ) : (
         <div className="space-y-6">
-          {orders.map((order) => (
-            <div
-              key={order._id}
-              className="border rounded-md bg-base-100 shadow-md p-4"
-            >
-              <div className="space-y-1 text-sm text-base-content">
-                <p className="font-semibold">Order ID: {order._id}</p>
-                <p>
-                  <strong>Customer:</strong> {order.customer.name}
-                </p>
-                <p>
-                  <strong>Email:</strong> {order.customer.email}
-                </p>
-                <p>
-                  <strong>Phone:</strong> {order.phone}
-                </p>
-                <p>
-                  <strong>Address:</strong> {order.address}
-                </p>
-                <p>
-                  <strong>Date:</strong>{" "}
-                  {new Date(order.createdAt).toLocaleString()}
-                </p>
-              </div>
+          {orders.map((order) => {
+            console.log("🧾 Rendering order:", order);
+            return (
+              <div
+                key={order._id}
+                className="border rounded-md bg-base-100 shadow-md p-4"
+              >
+                <div className="space-y-1 text-sm text-base-content">
+                  <p className="font-semibold">Order ID: {order._id}</p>
+                  <p>
+                    <strong>Customer:</strong> {order.customer?.name || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {order.customer?.email || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Phone:</strong> {order.phone || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Address:</strong> {order.address || "N/A"}
+                  </p>
+                  <p>
+                    <strong>Date:</strong>{" "}
+                    {new Date(order.createdAt).toLocaleString()}
+                  </p>
+                </div>
 
-              <div className="mt-4 space-y-2">
-                {order.products.map((item) => (
-                  <div
-                    key={item.product._id}
-                    className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-2 border-b pb-2"
-                  >
-                    <span className="text-sm">
-                      {item.product.name} × {item.quantity} (${item.price})
-                    </span>
-                    <select
-                      value={item.status}
-                      onChange={(e) =>
-                        handleStatusChange(
-                          order._id,
-                          item.product._id,
-                          e.target.value
-                        )
-                      }
-                      className="select select-sm select-bordered"
+                <div className="mt-4 space-y-2">
+                  {order.products.map((item) => (
+                    <div
+                      key={item.product._id}
+                      className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-2 border-b pb-2"
                     >
-                      <option value="paid" disabled>
-                        paid
-                      </option>
-                      <option value="shipped">shipped</option>
-                      <option value="delivered">delivered</option>
-                      <option value="cancelled">cancelled</option>
-                    </select>
-                  </div>
-                ))}
-              </div>
+                      <span className="text-sm">
+                        {item.product.name} × {item.quantity} (${item.price})
+                      </span>
+                      <select
+                        value={item.status}
+                        onChange={(e) =>
+                          handleStatusChange(
+                            order._id,
+                            item.product._id,
+                            e.target.value
+                          )
+                        }
+                        className="select select-sm select-bordered"
+                      >
+                        <option value="paid" disabled>
+                          paid
+                        </option>
+                        <option value="shipped">shipped</option>
+                        <option value="delivered">delivered</option>
+                        <option value="cancelled">cancelled</option>
+                      </select>
+                    </div>
+                  ))}
+                </div>
 
-              <p className="mt-3 font-semibold text-base-content">
-                Total: ${order.totalAmount.toFixed(2)}
-              </p>
-            </div>
-          ))}
+                <p className="mt-3 font-semibold text-base-content">
+                  Total: ${order.totalAmount.toFixed(2)}
+                </p>
+              </div>
+            );
+          })}
 
           {/* 📄 Pagination Controls */}
           <div className="flex justify-center items-center gap-4 mt-6">
