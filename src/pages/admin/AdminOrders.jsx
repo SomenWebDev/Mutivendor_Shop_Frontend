@@ -1,4 +1,3 @@
-// pages/admin/AdminOrder.jsx
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -44,7 +43,6 @@ const AdminOrders = () => {
 
   useEffect(() => {
     fetchOrders();
-
   }, [search, status, category, page]);
 
   useEffect(() => {
@@ -61,7 +59,7 @@ const AdminOrders = () => {
       <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-6">
         <input
           type="text"
-          placeholder="Search by name or email..."
+          placeholder="Search by name, email, or phone..."
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -119,6 +117,12 @@ const AdminOrders = () => {
                 <p className="text-base-content dark:text-base-content">
                   <strong>Customer:</strong> {order.customer?.name} (
                   {order.customer?.email})
+                </p>
+                <p className="text-base-content dark:text-base-content">
+                  <strong>Phone:</strong> {order.phone || "N/A"}
+                </p>
+                <p className="text-base-content dark:text-base-content">
+                  <strong>Address:</strong> {order.address || "N/A"}
                 </p>
                 <p className="text-base-content dark:text-base-content">
                   <strong>Placed:</strong>{" "}
