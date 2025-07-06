@@ -23,7 +23,7 @@ const Orders = () => {
       setOrders(res.data.orders || []);
       setTotalPages(res.data.totalPages || 1);
     } catch (err) {
-      toast.error("Failed to fetch orders");
+      toast.error("Failed to fetch orders",err);
     }
   };
 
@@ -46,7 +46,7 @@ const Orders = () => {
       toast.success("Status updated");
       fetchOrders();
     } catch (err) {
-      toast.error("Failed to update status");
+      toast.error("Failed to update status",err);
     }
   };
 
