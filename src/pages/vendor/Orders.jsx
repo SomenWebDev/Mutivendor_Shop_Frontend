@@ -23,7 +23,7 @@ const Orders = () => {
       setOrders(res.data.orders || []);
       setTotalPages(res.data.totalPages || 1);
     } catch (err) {
-      toast.error("Failed to fetch orders", err);
+      toast.error("Failed to fetch orders");
     }
   };
 
@@ -46,7 +46,7 @@ const Orders = () => {
       toast.success("Status updated");
       fetchOrders();
     } catch (err) {
-      toast.error("Failed to update status", err);
+      toast.error("Failed to update status");
     }
   };
 
@@ -63,7 +63,7 @@ const Orders = () => {
       <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
         <input
           type="text"
-          placeholder="Search by customer name or email"
+          placeholder="Search by name, email, or phone"
           value={search}
           onChange={handleSearchInput}
           className="input input-bordered w-full md:max-w-md"
