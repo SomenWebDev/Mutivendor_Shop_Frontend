@@ -13,7 +13,9 @@ const Orders = () => {
     try {
       const token = localStorage.getItem("token");
       const res = await axios.get(
-        `${import.meta.env.VITE_API_BASE_URL}/api/vendor/orders?page=${page}&limit=5&search=${search}&sortBy=${sortBy}`,
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/api/vendor/orders?page=${page}&limit=5&search=${search}&sortBy=${sortBy}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -95,6 +97,12 @@ const Orders = () => {
                 </p>
                 <p>
                   <strong>Email:</strong> {order.customer.email}
+                </p>
+                <p>
+                  <strong>Phone:</strong> {order.phone}
+                </p>
+                <p>
+                  <strong>Address:</strong> {order.address}
                 </p>
                 <p>
                   <strong>Date:</strong>{" "}
